@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
 	import type { Todo } from '$lib/types/todo';
-	import { supabase } from '../lib/supabase';
-	import { SupabaseApp, Collection } from 'supasveltekit';
+	import { supabase } from '$lib/supabase';
+	import { Collection } from 'supasveltekit';
 
 	const table = 'todos';
 
@@ -26,25 +26,24 @@
 	};
 </script>
 
-<SupabaseApp {supabase}>
-	<div class="flex flex-col gap-6">
-		<Collection {table} let:payload let:error realtime={true}>
-			{#if !payload}
-				<p>Loading...</p>
-			{:else if error}
-				<p>{error.message}</p>
-			{:else}
-				{#each payload.sort() as entry}
-					<Card
-						entity={entry}
-						on:done={async (updateEvent) => await updateTodo(updateEvent.detail)}
-                        on:delete={async (deleteEvent) => await deleteTodo(deleteEvent.detail)}
-					/>
-				{/each}
-			{/if}
-			<div slot="loading">
-				<p>Loading...</p>
-			</div>
-		</Collection>
-	</div>
-</SupabaseApp>
+
+<div class="flex flex-col gap-6">
+	<Collection {table} let:payload let:error realtime={true}>
+		{#if !payload}
+			<p>Loading...</p>
+		{:else if error}
+			<p>{error.message}</p>
+		{:else}
+			{#each payload.sort() as entry}
+				<Card
+					entity={entry}
+					on:done={async (updateEvent) => await updateTodo(updateEvent.detail)}
+					on:delete={async (deleteEvent) => await deleteTodo(deleteEvent.detail)}
+				/>
+			{/each}
+		{/if}
+		<div slot="loading">
+			<p>Loading...</p>
+		</div>
+	</Collection>
+</div>
