@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/supabase-js": "^2.38.2",
 		"supasveltekit": "^0.1.3"
 	}
 }
