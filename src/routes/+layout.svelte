@@ -13,7 +13,7 @@
 		}
 	};
 
-    const logout = async () => {
+	const logout = async () => {
 		const { error } = await supabase.auth.signOut();
 
 		if (error) {
@@ -28,20 +28,33 @@
 	</Unauthenticated>
 
 	<Authenticated>
-		<div class="navbar bg-primary text-primary-content">
-			<div class="navbar-start">
-				<a class="btn btn-ghost normal-case text-xl" href="/">Awesome Todo App</a>
+		<div class="h-screen flex flex-col">
+			<div class="navbar bg-primary text-primary-content">
+				<div class="navbar-start">
+					<a class="btn btn-ghost normal-case text-xl" href="/">Awesome Todo App</a>
+				</div>
+
+				<div class="navbar-end">
+					<CreateTodo
+						on:create={async (createEvent) => await createTodoHandler(createEvent.detail)}
+					/>
+					<button class="btn btn-secondary ml-4" on:click={logout}>Logout</button>
+				</div>
 			</div>
 
-			<div class="navbar-end">
-				<CreateTodo
-					on:create={async (createEvent) => await createTodoHandler(createEvent.detail)}
-				/>
-                <button class="btn btn-secondary ml-4" on:click={logout}>Logout</button>
+			<div class="flex flex-1 m-6">
+				<slot />
 			</div>
-		</div>
-		<div class="m-6">
-			<slot />
+
+			<div class="p-8 text-center bg-base-200 text-base-content">
+				<p>
+					Powered by <a
+						href="https://github.com/OpenFrenchFries/supasveltekit"
+						target="_blank"
+						class="hover:underline">SupaSvelteKit</a
+					> 🚀
+				</p>
+			</div>
 		</div>
 	</Authenticated>
 </SupabaseApp>
